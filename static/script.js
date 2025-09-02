@@ -27,7 +27,7 @@ async function downloadVideo() {
   
       if (result.status === "success") {
         progressFill.style.width = "100%";
-        status.innerHTML = `✅ ${result.title}<br><a href="/get_file/${result.filename}">Click to save</a>`;
+        status.innerHTML = `✅ ${result.title}<br><a href="/get_file/${result.filename}" class="download-link">Click to save</a>`;
         status.style.color = "green";
       } else {
         status.textContent = "❌ Error: " + result.message;

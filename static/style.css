@@ -105,7 +105,7 @@
     background: #eee;
     border-radius: 6px;
     overflow: hidden;
-    display: none; /* hidden until active */
+    display: none;
   }
   
   .progress-fill {

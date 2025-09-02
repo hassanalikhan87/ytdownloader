@@ -19,14 +19,20 @@ def index():
 def download_video():
     data = request.get_json()
     url = data.get("url")
+    format_choice = data.get("format", "video")
 
     if not url:
         return jsonify({"status": "error", "message": "No URL provided"}), 400
 
     try:
         yt = YouTube(url)
-        stream = yt.streams.get_highest_resolution()
-        filename = stream.default_filename
+        if format_choice == "audio":
+            stream = yt.streams.filter(only_audio=True).first()
+            filename = yt.title.replace(" ", "_") + ".mp3"
+        else:
+            stream = yt.streams.get_highest_resolution()
+            filename = stream.default_filename
+
         filepath = os.path.join(DOWNLOAD_FOLDER, filename)
         stream.download(output_path=DOWNLOAD_FOLDER, filename=filename)
 

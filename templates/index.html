@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="static/styles.css">
 </head>
 <body>
-  <div class="app-container">
+  <div class="wrapper">
     <div class="card">
       <h1>YouTube Downloader</h1>
       <p class="subtitle">Paste a YouTube link to download</p>
@@ -16,18 +16,22 @@
       </div>
 
       <div class="options">
-        <label>
+        <label class="radio">
           <input type="radio" name="format" value="video" checked> Video (MP4)
         </label>
-        <label>
+        <label class="radio">
           <input type="radio" name="format" value="audio"> Audio (MP3)
         </label>
       </div>
 
-      <button onclick="downloadVideo()">⬇️ Download</button>
-      <div class="progress-bar" id="progress-bar">
-        <div class="progress-fill" id="progress-fill"></div>
+      <button class="btn" onclick="downloadVideo()">⬇️ Download</button>
+
+      <div class="progress-container">
+        <div class="progress-bar" id="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
       </div>
+
       <p id="status"></p>
     </div>
   </div>
