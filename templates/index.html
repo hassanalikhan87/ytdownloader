@@ -1,52 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>YouTube Downloader</title>
-  <link rel="stylesheet" href="../static/style.css">
-</head>
-<body>
-  <div class="app-container">
-    <div class="tabs">
-      <button class="tab-btn active" onclick="showTab('video')">🎬 Video</button>
-      <button class="tab-btn" onclick="showTab('playlist')">📂 Playlist</button>
+  <head>
+    <meta charset="UTF-8" />
+    <title>YouTube Downloader</title>
+    <link rel="stylesheet" href="../static/style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('video')">
+          🎬 Video
+        </button>
+        <button class="tab-btn" onclick="showTab('playlist')">
+          📂 Playlist
+        </button>
+      </div>
+
+      <!-- Single Video -->
+      <div id="video-tab" class="tab-content active">
+        <h2>Download Single Video</h2>
+        <input
+          type="text"
+          id="video-url"
+          placeholder="Enter YouTube video URL"
+        />
+
+        <select id="video-quality">
+          <option value="highest">Highest Quality</option>
+          <option value="1080p">1080p</option>
+          <option value="720p">720p</option>
+          <option value="480p">480p</option>
+          <option value="audio">Audio Only (MP3)</option>
+        </select>
+
+        <button onclick="downloadVideo()">⬇️ Download</button>
+        <p id="video-status"></p>
+      </div>
+
+      <!-- Playlist -->
+      <div id="playlist-tab" class="tab-content">
+        <h2>Download Playlist</h2>
+        <input
+          type="text"
+          id="playlist-url"
+          placeholder="Enter YouTube playlist URL"
+        />
+
+        <select id="playlist-quality">
+          <option value="highest">Highest Quality</option>
+          <option value="1080p">1080p</option>
+          <option value="720p">720p</option>
+          <option value="480p">480p</option>
+          <option value="audio">Audio Only (MP3)</option>
+        </select>
+
+        <button onclick="downloadPlaylist()">⬇️ Download</button>
+        <!-- Progress Bar for Video -->
+        <div class="progress-container" id="video-progress">
+          <div class="progress-fill" id="video-progress-fill"></div>
+        </div>
+        <p id="video-status"></p>
+
+        <!-- Progress Bar for Playlist -->
+        <div class="progress-container" id="playlist-progress">
+          <div class="progress-fill" id="playlist-progress-fill"></div>
+        </div>
+        <p id="playlist-status"></p>
+      </div>
     </div>
 
-    <!-- Single Video -->
-    <div id="video-tab" class="tab-content active">
-      <h2>Download Single Video</h2>
-      <input type="text" id="video-url" placeholder="Enter YouTube video URL">
-
-      <select id="video-quality">
-        <option value="highest">Highest Quality</option>
-        <option value="1080p">1080p</option>
-        <option value="720p">720p</option>
-        <option value="480p">480p</option>
-        <option value="audio">Audio Only (MP3)</option>
-      </select>
-
-      <button onclick="downloadVideo()">⬇️ Download</button>
-      <p id="video-status"></p>
-    </div>
-
-    <!-- Playlist -->
-    <div id="playlist-tab" class="tab-content">
-      <h2>Download Playlist</h2>
-      <input type="text" id="playlist-url" placeholder="Enter YouTube playlist URL">
-
-      <select id="playlist-quality">
-        <option value="highest">Highest Quality</option>
-        <option value="1080p">1080p</option>
-        <option value="720p">720p</option>
-        <option value="480p">480p</option>
-        <option value="audio">Audio Only (MP3)</option>
-      </select>
-
-      <button onclick="downloadPlaylist()">⬇️ Download</button>
-      <p id="playlist-status"></p>
-    </div>
-  </div>
-
-  <script src="../static/script.js"></script>
-</body>
+    <script src="../static/script.js"></script>
+  </body>
 </html>
