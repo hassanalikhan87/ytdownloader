@@ -2,45 +2,77 @@ import os
 import ssl
 import certifi
 from flask import Flask, render_template, request, send_from_directory, jsonify
-from pytubefix import YouTube
+from pytubefix import YouTube, Playlist
 
-# Fix SSL issues
 ssl._create_default_https_context = lambda: ssl.create_default_context(cafile=certifi.where())
 
 app = Flask(__name__)
 DOWNLOAD_FOLDER = "downloads"
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 
+# ---------------- ROUTES ----------------
 @app.route("/")
 def index():
     return render_template("index.html")
 
-@app.route("/download", methods=["POST"])
+@app.route("/download_video", methods=["POST"])
 def download_video():
     data = request.get_json()
     url = data.get("url")
-    format_choice = data.get("format", "video")
+    quality = data.get("quality")
 
     if not url:
         return jsonify({"status": "error", "message": "No URL provided"}), 400
 
     try:
         yt = YouTube(url)
-        if format_choice == "audio":
-            stream = yt.streams.filter(only_audio=True).first()
-            filename = yt.title.replace(" ", "_") + ".mp3"
-        else:
-            stream = yt.streams.get_highest_resolution()
-            filename = stream.default_filename
+        stream = None
 
-        filepath = os.path.join(DOWNLOAD_FOLDER, filename)
+        if quality == "audio":
+            stream = yt.streams.filter(only_audio=True).first()
+        elif quality == "highest":
+            stream = yt.streams.get_highest_resolution()
+        else:
+            stream = yt.streams.filter(res=quality, progressive=True).first()
+
+        if not stream:
+            return jsonify({"status": "error", "message": f"No stream available for {quality}"}), 404
+
+        filename = stream.default_filename
         stream.download(output_path=DOWNLOAD_FOLDER, filename=filename)
 
-        return jsonify({
-            "status": "success",
-            "title": yt.title,
-            "filename": filename
-        })
+        return jsonify({"status": "success", "title": yt.title, "filename": filename})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/download_playlist", methods=["POST"])
+def download_playlist():
+    data = request.get_json()
+    url = data.get("url")
+    quality = data.get("quality")
+
+    if not url:
+        return jsonify({"status": "error", "message": "No URL provided"}), 400
+
+    try:
+        pl = Playlist(url)
+        downloaded = []
+
+        for yt in pl.videos:
+            stream = None
+            if quality == "audio":
+                stream = yt.streams.filter(only_audio=True).first()
+            elif quality == "highest":
+                stream = yt.streams.get_highest_resolution()
+            else:
+                stream = yt.streams.filter(res=quality, progressive=True).first()
+
+            if stream:
+                filename = stream.default_filename
+                stream.download(output_path=DOWNLOAD_FOLDER, filename=filename)
+                downloaded.append({"title": yt.title, "filename": filename})
+
+        return jsonify({"status": "success", "playlist": pl.title, "videos": downloaded})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 

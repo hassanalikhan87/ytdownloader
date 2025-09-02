@@ -6,42 +6,44 @@
   <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
-  <div class="container">
-    <div class="card">
-      <h1 class="title">🎥 YouTube Downloader</h1>
-      <p class="subtitle">Download videos or audio in one click</p>
+  <div class="app-container">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('video')">🎬 Video</button>
+      <button class="tab-btn" onclick="showTab('playlist')">📂 Playlist</button>
+    </div>
 
-      <!-- Input -->
-      <div class="input-group">
-        <input type="text" id="url" placeholder="Paste YouTube URL here...">
-        <button class="btn small" onclick="previewVideo()">🔍 Preview</button>
-      </div>
+    <!-- Single Video -->
+    <div id="video-tab" class="tab-content active">
+      <h2>Download Single Video</h2>
+      <input type="text" id="video-url" placeholder="Enter YouTube video URL">
 
-      <!-- Preview section -->
-      <div id="preview" class="preview hidden">
-        <img id="thumbnail" alt="Thumbnail">
-        <h3 id="video-title"></h3>
-      </div>
+      <select id="video-quality">
+        <option value="highest">Highest Quality</option>
+        <option value="1080p">1080p</option>
+        <option value="720p">720p</option>
+        <option value="480p">480p</option>
+        <option value="audio">Audio Only (MP3)</option>
+      </select>
 
-      <!-- Format toggle -->
-      <div class="toggle-group">
-        <input type="radio" name="format" id="video" value="video" checked>
-        <label for="video">Video (MP4)</label>
-        <input type="radio" name="format" id="audio" value="audio">
-        <label for="audio">Audio (MP3)</label>
-      </div>
+      <button onclick="downloadVideo()">⬇️ Download</button>
+      <p id="video-status"></p>
+    </div>
 
-      <!-- Download button -->
-      <button class="btn primary" onclick="downloadVideo()">⬇️ Download</button>
+    <!-- Playlist -->
+    <div id="playlist-tab" class="tab-content">
+      <h2>Download Playlist</h2>
+      <input type="text" id="playlist-url" placeholder="Enter YouTube playlist URL">
 
-      <!-- Progress -->
-      <div class="progress-container">
-        <div class="progress-bar" id="progress-bar">
-          <div class="progress-fill" id="progress-fill"></div>
-        </div>
-      </div>
+      <select id="playlist-quality">
+        <option value="highest">Highest Quality</option>
+        <option value="1080p">1080p</option>
+        <option value="720p">720p</option>
+        <option value="480p">480p</option>
+        <option value="audio">Audio Only (MP3)</option>
+      </select>
 
-      <p id="status"></p>
+      <button onclick="downloadPlaylist()">⬇️ Download</button>
+      <p id="playlist-status"></p>
     </div>
   </div>
 

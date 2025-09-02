@@ -1,62 +1,57 @@
-async function previewVideo() {
-    const url = document.getElementById("url").value;
-    const preview = document.getElementById("preview");
-    const title = document.getElementById("video-title");
-    const thumbnail = document.getElementById("thumbnail");
+function showTab(tab) {
+    document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
   
-    if (!url.includes("youtube.com") && !url.includes("youtu.be")) {
-      preview.classList.add("hidden");
-      return;
-    }
-  
-    // Extract video ID
-    const videoIdMatch = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
-    if (videoIdMatch) {
-      const videoId = videoIdMatch[1];
-      thumbnail.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-      title.textContent = "Preview loaded";
-      preview.classList.remove("hidden");
-    }
+    document.getElementById(tab + "-tab").classList.add("active");
+    document.querySelector(`.tab-btn[onclick="showTab('${tab}')"]`).classList.add("active");
   }
   
   async function downloadVideo() {
-    const url = document.getElementById("url").value;
-    const format = document.querySelector('input[name="format"]:checked').value;
-    const status = document.getElementById("status");
-    const progressBar = document.getElementById("progress-bar");
-    const progressFill = document.getElementById("progress-fill");
+    const url = document.getElementById("video-url").value;
+    const quality = document.getElementById("video-quality").value;
+    const status = document.getElementById("video-status");
   
-    if (!url) {
-      status.textContent = "⚠️ Please enter a YouTube URL";
-      status.style.color = "red";
-      return;
-    }
-  
-    status.textContent = "⏳ Preparing download...";
-    status.style.color = "black";
-    progressBar.style.display = "block";
-    progressFill.style.width = "30%";
-  
+    status.textContent = "⏳ Downloading...";
     try {
-      const response = await fetch("/download", {
+      const res = await fetch("/download_video", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url, format })
+        body: JSON.stringify({ url, quality })
       });
+      const data = await res.json();
   
-      const result = await response.json();
-  
-      if (result.status === "success") {
-        progressFill.style.width = "100%";
-        status.innerHTML = `✅ ${result.title}<br><a href="/get_file/${result.filename}" class="btn small">💾 Save file</a>`;
-        status.style.color = "green";
+      if (data.status === "success") {
+        status.innerHTML = `✅ ${data.title}<br><a href="/get_file/${data.filename}">Download File</a>`;
       } else {
-        status.textContent = "❌ Error: " + result.message;
-        status.style.color = "red";
+        status.textContent = "❌ " + data.message;
       }
     } catch (err) {
-      status.textContent = "❌ Request failed: " + err.message;
-      status.style.color = "red";
+      status.textContent = "❌ " + err.message;
+    }
+  }
+  
+  async function downloadPlaylist() {
+    const url = document.getElementById("playlist-url").value;
+    const quality = document.getElementById("playlist-quality").value;
+    const status = document.getElementById("playlist-status");
+  
+    status.textContent = "⏳ Downloading playlist...";
+    try {
+      const res = await fetch("/download_playlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url, quality })
+      });
+      const data = await res.json();
+  
+      if (data.status === "success") {
+        let links = data.videos.map(v => `<li><a href="/get_file/${v.filename}">${v.title}</a></li>`).join("");
+        status.innerHTML = `✅ Playlist: ${data.playlist}<br><ul>${links}</ul>`;
+      } else {
+        status.textContent = "❌ " + data.message;
+      }
+    } catch (err) {
+      status.textContent = "❌ " + err.message;
     }
   }
   

@@ -6,163 +6,132 @@
   }
   
   body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #4facfe, #00f2fe);
-    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .container {
-    width: 100%;
-    max-width: 500px;
     padding: 20px;
+    color: #333;
   }
   
-  .card {
+  /* App Container */
+  .app-container {
     background: #fff;
-    border-radius: 18px;
+    border-radius: 20px;
     padding: 30px;
-    box-shadow: 0 12px 35px rgba(0,0,0,0.15);
-    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
   }
   
-  .title {
-    font-size: 26px;
-    margin-bottom: 8px;
-    color: #222;
-  }
-  
-  .subtitle {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 25px;
-  }
-  
-  /* Input */
-  .input-group {
+  /* Tabs */
+  .tabs {
     display: flex;
-    gap: 8px;
     margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
   }
   
-  .input-group input {
+  .tab-btn {
     flex: 1;
-    padding: 12px 15px;
+    background: none;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #555;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+  }
+  
+  .tab-btn.active {
+    color: #667eea;
+    border-bottom: 2px solid #667eea;
+    font-weight: 600;
+  }
+  
+  /* Tab Content */
+  .tab-content {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Inputs */
+  input[type="text"], select {
+    width: 100%;
+    padding: 12px 14px;
+    margin: 12px 0;
     border: 1px solid #ddd;
     border-radius: 10px;
     font-size: 14px;
+    transition: border-color 0.3s;
   }
   
-  .input-group input:focus {
-    border-color: #4facfe;
+  input[type="text"]:focus, select:focus {
+    border-color: #667eea;
     outline: none;
   }
   
   /* Buttons */
-  .btn {
-    padding: 12px 18px;
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #667eea;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
     border: none;
     border-radius: 10px;
-    font-size: 14px;
     cursor: pointer;
-    transition: background 0.3s, transform 0.1s;
+    transition: background 0.3s ease, transform 0.1s ease;
   }
   
-  .btn.small {
-    background: #f1f1f1;
-    color: #333;
+  button:hover {
+    background: #5644c4;
   }
   
-  .btn.small:hover {
-    background: #e5e5e5;
+  button:active {
+    transform: scale(0.97);
   }
   
-  .btn.primary {
-    width: 100%;
+  /* Status Messages */
+  #video-status, #playlist-status {
     margin-top: 15px;
-    background: #4facfe;
-    color: #fff;
-    font-weight: 600;
-  }
-  
-  .btn.primary:hover {
-    background: #3295fc;
-    transform: translateY(-1px);
-  }
-  
-  /* Toggle */
-  .toggle-group {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin: 20px 0;
-  }
-  
-  .toggle-group input {
-    display: none;
-  }
-  
-  .toggle-group label {
-    padding: 8px 14px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  
-  .toggle-group input:checked + label {
-    background: #4facfe;
-    color: #fff;
-    border-color: #4facfe;
-  }
-  
-  /* Preview */
-  .preview {
-    margin: 15px 0;
-  }
-  
-  .preview img {
-    width: 100%;
-    border-radius: 12px;
-    margin-bottom: 10px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-  }
-  
-  .preview h3 {
-    font-size: 16px;
-    color: #333;
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
-  /* Progress */
-  .progress-container {
-    margin-top: 20px;
-  }
-  
-  .progress-bar {
-    width: 100%;
-    height: 8px;
-    background: #eee;
-    border-radius: 6px;
-    overflow: hidden;
-    display: none;
-  }
-  
-  .progress-fill {
-    height: 100%;
-    width: 0%;
-    background: #4facfe;
-    transition: width 0.3s ease;
-  }
-  
-  #status {
-    margin-top: 12px;
-    font-size: 13px;
+    font-size: 14px;
+    line-height: 1.5;
     color: #444;
+  }
+  
+  #video-status a, #playlist-status a {
+    color: #667eea;
+    text-decoration: none;
+  }
+  
+  #video-status a:hover, #playlist-status a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Playlist Links */
+  #playlist-status ul {
+    margin-top: 10px;
+    padding-left: 20px;
+    text-align: left;
+  }
+  
+  #playlist-status li {
+    margin: 6px 0;
+    font-size: 14px;
   }
   
