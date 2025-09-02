@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube Downloader</title>
+  <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="card">
+      <h1>YouTube Downloader</h1>
+      <p class="subtitle">Paste a YouTube link to download</p>
+
+      <div class="input-group">
+        <input type="text" id="url" placeholder="Enter YouTube URL">
+      </div>
+
+      <div class="options">
+        <label>
+          <input type="radio" name="format" value="video" checked> Video (MP4)
+        </label>
+        <label>
+          <input type="radio" name="format" value="audio"> Audio (MP3)
+        </label>
+      </div>
+
+      <button onclick="downloadVideo()">⬇️ Download</button>
+      <div class="progress-bar" id="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <p id="status"></p>
+    </div>
+  </div>
+  <script src="static/script.js"></script>
+</body>
+</html>
