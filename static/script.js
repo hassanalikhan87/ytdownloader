@@ -1,4 +1,25 @@
-async function downloadVideo() {
+async function previewVideo() {
+    const url = document.getElementById("url").value;
+    const preview = document.getElementById("preview");
+    const title = document.getElementById("video-title");
+    const thumbnail = document.getElementById("thumbnail");
+  
+    if (!url.includes("youtube.com") && !url.includes("youtu.be")) {
+      preview.classList.add("hidden");
+      return;
+    }
+  
+    // Extract video ID
+    const videoIdMatch = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
+    if (videoIdMatch) {
+      const videoId = videoIdMatch[1];
+      thumbnail.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+      title.textContent = "Preview loaded";
+      preview.classList.remove("hidden");
+    }
+  }
+  
+  async function downloadVideo() {
     const url = document.getElementById("url").value;
     const format = document.querySelector('input[name="format"]:checked').value;
     const status = document.getElementById("status");
@@ -27,7 +48,7 @@ async function downloadVideo() {
   
       if (result.status === "success") {
         progressFill.style.width = "100%";
-        status.innerHTML = `✅ ${result.title}<br><a href="/get_file/${result.filename}" class="download-link">Click to save</a>`;
+        status.innerHTML = `✅ ${result.title}<br><a href="/get_file/${result.filename}" class="btn small">💾 Save file</a>`;
         status.style.color = "green";
       } else {
         status.textContent = "❌ Error: " + result.message;

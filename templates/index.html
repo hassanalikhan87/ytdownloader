@@ -3,29 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <title>YouTube Downloader</title>
-  <link rel="stylesheet" href="static/styles.css">
+  <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
-  <div class="wrapper">
+  <div class="container">
     <div class="card">
-      <h1>YouTube Downloader</h1>
-      <p class="subtitle">Paste a YouTube link to download</p>
+      <h1 class="title">🎥 YouTube Downloader</h1>
+      <p class="subtitle">Download videos or audio in one click</p>
 
+      <!-- Input -->
       <div class="input-group">
-        <input type="text" id="url" placeholder="Enter YouTube URL">
+        <input type="text" id="url" placeholder="Paste YouTube URL here...">
+        <button class="btn small" onclick="previewVideo()">🔍 Preview</button>
       </div>
 
-      <div class="options">
-        <label class="radio">
-          <input type="radio" name="format" value="video" checked> Video (MP4)
-        </label>
-        <label class="radio">
-          <input type="radio" name="format" value="audio"> Audio (MP3)
-        </label>
+      <!-- Preview section -->
+      <div id="preview" class="preview hidden">
+        <img id="thumbnail" alt="Thumbnail">
+        <h3 id="video-title"></h3>
       </div>
 
-      <button class="btn" onclick="downloadVideo()">⬇️ Download</button>
+      <!-- Format toggle -->
+      <div class="toggle-group">
+        <input type="radio" name="format" id="video" value="video" checked>
+        <label for="video">Video (MP4)</label>
+        <input type="radio" name="format" id="audio" value="audio">
+        <label for="audio">Audio (MP3)</label>
+      </div>
 
+      <!-- Download button -->
+      <button class="btn primary" onclick="downloadVideo()">⬇️ Download</button>
+
+      <!-- Progress -->
       <div class="progress-container">
         <div class="progress-bar" id="progress-bar">
           <div class="progress-fill" id="progress-fill"></div>
@@ -35,6 +44,7 @@
       <p id="status"></p>
     </div>
   </div>
-  <script src="static/script.js"></script>
+
+  <script src="../static/script.js"></script>
 </body>
 </html>
